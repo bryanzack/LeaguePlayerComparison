@@ -1,18 +1,17 @@
-import {Match, MatchList} from "../types";
-
-const fetchMatch = async (match_id: string, region: string): Promise<Match> => {
+export const fetchMatch = (match_id: string, region: string) => {
     const request_url = `https://${region}.api.riotgames.com/lol/match/v5/matches/${match_id}?api_key=${process.env.API_KEY}`
-    return await fetch(request_url)
-        .then(response => response.json());
+    return fetch(request_url)
+        .then(res => res.json())
 }
 
-const extractMatchData = async (matches: MatchList): Promise<Match[]> => {
-    let match_list: Match[] = [];
-    for (let match_id in matches) {
-        await fetchMatch(matches[match_id], 'americas')
-            .then(match_json => match_list.push(match_json))
-    }
-    return match_list;
+export const fetchWithDelay = (match_id: string, region: string, delay: number) => {
+    const request_url = `https://${region}.api.riotgames.com/lol/match/v5/matches/${match_id}?api_key=${process.env.API_KEY}`
+        const response = fetch(request_url).then(async (response) => {
+            await new Promise(resolve => setTimeout(resolve, delay));
+            console.log(`code ${response.status}`);
+            return response.json();
+        });
+    return response;
 }
 
-export default extractMatchData;
+

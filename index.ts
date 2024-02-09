@@ -8,13 +8,15 @@ const names = [
     'mrknutz#0420'
 ];
 
+const count = 10;
+
 async function main() {
     const account_promises: Promise<Account>[] = names.map(name =>
         getPUUID('americas', name.split('#')[0], name.split('#')[1]));
 
     const accounts = await Promise.all(account_promises);
 
-    const matches = await getPlayerMatches(accounts);
+    const matches = await getPlayerMatches(accounts, count);
 
     var json = JSON.stringify(matches);
     fs.writeFile('matches.json', json, 'utf8', () => console.log('done'));

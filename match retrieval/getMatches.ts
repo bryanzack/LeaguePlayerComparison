@@ -1,4 +1,3 @@
-import {MatchList} from "../types";
 
 const getMatches = async (
     info: {
@@ -9,9 +8,9 @@ const getMatches = async (
         queue?: number,
         type?: string,
         start?: number,
-        count?: number,
+        count: number,
     }
-): Promise<MatchList>     => {
+): Promise<string[]>     => {
 
     const {
         region,
@@ -21,7 +20,7 @@ const getMatches = async (
         count,
     } = info;
 
-    const request_url= `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=${queue}&start=0&count=100&api_key=${process.env.api_key}`;
+    const request_url= `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=${queue}&start=0&count=${count}&api_key=${process.env.api_key}`;
 
     return await fetch(request_url).then(response => response.json());
 }
