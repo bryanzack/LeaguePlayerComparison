@@ -1,5 +1,6 @@
+import {z} from 'zod';
 
-const getMatches = async (
+const getMatchIDs = async (
     info: {
         region: string,
         puuid: string,
@@ -10,7 +11,7 @@ const getMatches = async (
         start?: number,
         count: number,
     }
-): Promise<string[]>     => {
+)     => {
 
     const {
         region,
@@ -22,7 +23,12 @@ const getMatches = async (
 
     const request_url= `https://${region}.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?queue=${queue}&start=0&count=${count}&api_key=${process.env.api_key}`;
 
-    return await fetch(request_url).then(response => response.json());
+    return await fetch(request_url)
+        .then(response => response.json()
+            .then((json) => {
+                console.log(json);
+                return z.array(z.string()).parse(json);
+            }));
 }
 
-export default getMatches;
+export default getMatchIDs;

@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {matchSchema} from "./schemas";
+import {matchSchema, participantSchema} from "./schemas";
 
 export type Account = {
     puuid: string,
@@ -8,3 +8,5 @@ export type Account = {
 };
 
 export type Match = z.infer<typeof matchSchema>;
+
+export type Participant = z.infer<typeof participantSchema>;

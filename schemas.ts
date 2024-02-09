@@ -1,7 +1,12 @@
 import { z } from "zod"
 
+export const accountSchema = z.object({
+    puuid: z.string(),
+    gameName: z.string(),
+    tagLine: z.string(),
+});
 
-const participantSchema = z.object({
+export const participantSchema = z.object({
     allInPings: z.number().optional(),
     assistMePings: z.number().optional(),
     assists: z.number().optional(),

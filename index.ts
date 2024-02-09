@@ -2,6 +2,7 @@ import getPlayerMatches from "./match retrieval/getPlayerMatches";
 import {Account} from "./types";
 import getPUUID from "./match retrieval/getAccount";
 import * as fs from 'fs';
+import getPlayerStats from "./data interpretation/getPlayerStats";
 
 const names = [
     'guns or bust#00000',
@@ -16,12 +17,12 @@ async function main() {
 
     const accounts = await Promise.all(account_promises);
 
-    const matches = await getPlayerMatches(accounts, count);
+    const total_matches = await getPlayerMatches(accounts, count);
 
-    var json = JSON.stringify(matches);
+    var json = JSON.stringify(total_matches);
+    let stats = total_matches.map((match_list, i) => getPlayerStats(match_list, accounts[i].puuid));
     fs.writeFile('matches.json', json, 'utf8', () => console.log('done'));
-    //TODO: add terminal progess updates that show what player is being retrieved along with what match out of 100, also show if rate limit was hit
-    //TODO: fix rate limiting somehow.
+    fs.writeFile('playerstats.json', JSON.stringify(stats), 'utf8', () => console.log('stats gotten'));
 }
 
 if (require.main === module) {
