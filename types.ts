@@ -9,4 +9,7 @@ export type Account = {
 
 export type Match = z.infer<typeof matchSchema>;
 
-export type Participant = z.infer<typeof participantSchema>;
+export type Participant = {
+    [key: number]: z.infer<typeof participantSchema>
+};
+export const ParticipantRecord = z.record(participantSchema);
