@@ -3,7 +3,7 @@ import {Account} from "./types";
 import getPUUID from "./match retrieval/getAccount";
 import * as fs from 'fs';
 import getPlayerStats from "./data interpretation/getPlayerStats";
-import calculateAverageStats, {sumChallenges, sumPlayerStats} from "./data interpretation/calculateAverageStats";
+import calculateAverageStats from "./data interpretation/calculateAverageStats";
 
 const names = [
     'guns or bust#00000',
@@ -27,14 +27,10 @@ async function main() {
     // for each player, an array of Participant data from their last X matches is returned
     const total_stats = total_matches.map((match_list, i) => getPlayerStats(match_list, accounts[i].puuid));
 
-    //const average_stats = sumPlayerStats(total_stats[0]);
-    const average_stats = sumChallenges(total_stats[0]);
-
 
     var json = JSON.stringify(total_matches);
     fs.writeFile('matches.json', json, 'utf8', () => console.log('done'));
     fs.writeFile('playerstats.json', JSON.stringify(total_stats), 'utf8', () => console.log('stats gotten'));
-    fs.writeFile('averages.json', JSON.stringify(average_stats), 'utf8', () => console.log('averages collected'));
 }
 
 if (require.main === module) {
